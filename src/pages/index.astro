@@ -1,9 +1,10 @@
 ---
 import { useStoryblokApi } from '@storyblok/astro';
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 
 const storyblokApi = useStoryblokApi();
 const { data } = await storyblokApi.get('cdn/stories/home', {
-  version: 'draft',
+  version: 'published',
 });
 const story = data.story;
 ---
@@ -14,6 +15,9 @@ const story = data.story;
   </head>
   <body>
     <h1>{story.name}</h1>
-    <p>Storyblok funktioniert!</p>
+
+    {story.content.body?.map((blok) => (
+      <StoryblokComponent blok={blok} />
+    ))}
   </body>
 </html>
